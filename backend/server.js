@@ -1,3 +1,4 @@
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
@@ -11,7 +12,7 @@ app.use(express.json());
 
 // MongoDB connection
 mongoose
-  .connect("mongodb://127.0.0.1:27017/studentPlacementDB")
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("MongoDB connected successfully!");
   })
@@ -30,9 +31,10 @@ const studentSchema = new mongoose.Schema({
   status: String
 });
 
+// Student Model
 const Student = mongoose.model("Student", studentSchema);
 
-// Test route
+// Home API
 app.get("/", (req, res) => {
   res.send("Student Placement Analyzer Backend is running!");
 });
@@ -207,4 +209,3 @@ function getStatus(score) {
 app.listen(5000, () => {
   console.log("Server running on http://localhost:5000");
 });
-
